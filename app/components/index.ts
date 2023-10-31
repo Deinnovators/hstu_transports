@@ -19,3 +19,4 @@ export { default as MenuItemCard } from './MenuItemCard';
 export { default as BusNumberBox } from './BusNumberBox';
 export { default as TextRow } from './TextRow';
 export { default as NumberCard } from './NumberCard';
+export { default as MapMarker } from './MapMarker';
