@@ -18,3 +18,4 @@ export { default as Visibility } from './Visibility';
 export { default as MenuItemCard } from './MenuItemCard';
 export { default as BusNumberBox } from './BusNumberBox';
 export { default as TextRow } from './TextRow';
+export { default as NumberCard } from './NumberCard';

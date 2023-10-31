@@ -22,19 +22,19 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <Spacer />
           <MenuItemCard
             onPress={() => navigation.navigate('LiveTracking')}
-            title="Live Tracking"
+            title="Live tracking"
             icon="map-pin"
           />
           <Spacer />
           <MenuItemCard
             onPress={() => navigation.navigate('FullSchedule')}
-            title="Full Schedule"
+            title="Full schedule"
             icon="file-text"
           />
           <Spacer />
           <MenuItemCard
             onPress={() => navigation.navigate('DriverNumber')}
-            title="Driver's Numbers"
+            title="Driver's numbers"
             icon="phone-call"
           />
         </Box>
