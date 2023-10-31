@@ -15,7 +15,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   return (
     <Container safeArea>
       <Box justifyContent="center" pt={'l'} alignItems="center">
-        <Text variant="heading3">Driver Login</Text>
+        <Text variant="heading3">Login</Text>
         <Text variant="caption" my="s">
           Enter your credential
         </Text>
@@ -26,7 +26,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         <TextInput password label="Password" placeholder="Your password" />
         <Spacer space="large" />
         <Button
-          onPress={() => navigation.navigate('BusSelect')}
+          onPress={() => navigation.navigate('Home')}
           title="Login"
           variant="primary"
         />

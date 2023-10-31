@@ -10,6 +10,5 @@ export interface RootNavigationProps<
 
 export type RootNavigationRoutes = {
   Login: undefined;
-  BusSelect: undefined;
-  StoppageUpdater: { schedule: any };
+  Home: undefined;
 };
