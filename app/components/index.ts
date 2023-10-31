@@ -16,3 +16,5 @@ export { Header, SearchHeader } from './headers';
 export { Card } from './card';
 export { default as Visibility } from './Visibility';
 export { default as MenuItemCard } from './MenuItemCard';
+export { default as BusNumberBox } from './BusNumberBox';
+export { default as TextRow } from './TextRow';

@@ -4,6 +4,7 @@ import {
   Container,
   Spacer,
   Text,
+  TextRow,
   Visibility,
 } from '@app/components';
 import { useTheme } from '@app/lib/hooks';
@@ -52,16 +53,17 @@ const OngoingScreen: React.FC<OngoingScreenProps> = ({ navigation }) => {
                     <Text>{index + 1}</Text>
                   </Box>
                   <Box>
-                    <Text variant="comment">Started From: Boro Math </Text>
+                    <Text variant="comment">From: {'         Boro Math'}</Text>
                     <Text variant="comment">
-                      Previous Stop: Moharaja Mor{' '}
+                      {/* eslint-disable-next-line quotes */}
+                      Prev Stop:{`  `}Moharaja Mor{' '}
                       <Text variant="caption" fontSize={fp(1.2)}>
                         (Left at: 10:30 am)
                       </Text>
                     </Text>
                     <Text variant="comment">
-                      Next Stop:{' '}
-                      <Text variant="comment" color="primary">
+                      Next Stop:{'  '}
+                      <Text fontWeight="600" variant="comment" color="primary">
                         Terminal
                       </Text>
                     </Text>
@@ -93,9 +95,10 @@ const OngoingScreen: React.FC<OngoingScreenProps> = ({ navigation }) => {
                         alignItems="center">
                         <Text>{index + 1}</Text>
                       </Box>
-                      <Box>
-                        <Text variant="comment">Start From: Campus </Text>
-                        <Text variant="comment">Time: 11:30 am </Text>
+                      <Box alignSelf="stretch">
+                        <TextRow title="From" value="Campus" />
+                        <Spacer />
+                        <TextRow title="Time" value="11:30am" />
                       </Box>
                     </Card>
                     <Visibility on={index % 2 === 0}>
