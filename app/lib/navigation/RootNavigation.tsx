@@ -1,7 +1,14 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { RootNavigationRoutes } from './navigation.types';
-import { HomeScreen, LoginScreen } from '@app/screens';
+import {
+  DriverNumberScreen,
+  FullScheduleScreen,
+  HomeScreen,
+  LiveTrackingScreen,
+  LoginScreen,
+  OngoingScreen,
+} from '@app/screens';
 import { nativeStackOptions } from './navigation.options';
 import {
   NavigationContainer,
@@ -20,6 +27,10 @@ const RootNavigation: React.FC = ({}) => {
       <Navigator screenOptions={nativeStackOptions}>
         <Screen name="Login" component={LoginScreen} />
         <Screen name="Home" component={HomeScreen} />
+        <Screen name="Ongoing" component={OngoingScreen} />
+        <Screen name="DriverNumber" component={DriverNumberScreen} />
+        <Screen name="FullSchedule" component={FullScheduleScreen} />
+        <Screen name="LiveTracking" component={LiveTrackingScreen} />
       </Navigator>
     </NavigationContainer>
   );

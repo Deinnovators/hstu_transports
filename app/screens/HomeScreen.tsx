@@ -1,9 +1,10 @@
 import { Box, Container, MenuItemCard, Spacer, Text } from '@app/components';
+import { RootNavigationProps } from '@app/lib/navigation/navigation.types';
 import React from 'react';
 
-export interface HomeScreenProps {}
+export interface HomeScreenProps extends RootNavigationProps<'Home'> {}
 
-const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
+const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     <Container safeArea>
       <Box padding="m">
@@ -14,13 +15,28 @@ const HomeScreen: React.FC<HomeScreenProps> = ({}) => {
           Get all information you require
         </Text>
         <Box my="m">
-          <MenuItemCard title="Ongoing & upcoming trip" />
+          <MenuItemCard
+            onPress={() => navigation.navigate('Ongoing')}
+            title="Ongoing & upcoming trip"
+          />
           <Spacer />
-          <MenuItemCard title="Live Tracking" icon="map-pin" />
+          <MenuItemCard
+            onPress={() => navigation.navigate('LiveTracking')}
+            title="Live Tracking"
+            icon="map-pin"
+          />
           <Spacer />
-          <MenuItemCard title="Full Schedule" icon="file-text" />
+          <MenuItemCard
+            onPress={() => navigation.navigate('FullSchedule')}
+            title="Full Schedule"
+            icon="file-text"
+          />
           <Spacer />
-          <MenuItemCard title="Driver's Numbers" icon="phone-call" />
+          <MenuItemCard
+            onPress={() => navigation.navigate('DriverNumber')}
+            title="Driver's Numbers"
+            icon="phone-call"
+          />
         </Box>
       </Box>
     </Container>

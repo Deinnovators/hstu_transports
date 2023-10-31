@@ -11,4 +11,8 @@ export interface RootNavigationProps<
 export type RootNavigationRoutes = {
   Login: undefined;
   Home: undefined;
+  Ongoing: undefined;
+  LiveTracking: undefined;
+  FullSchedule: undefined;
+  DriverNumber: undefined;
 };
