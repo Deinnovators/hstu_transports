@@ -1,15 +1,15 @@
+import { api } from '@app/api';
 import {
   Box,
   Container,
+  LoadingContainer,
   NumberCard,
   Spacer,
-  Visibility,
 } from '@app/components';
-import { drivers } from '@app/constants/data.constants';
 import { useTheme } from '@app/lib/hooks';
 import { RootNavigationProps } from '@app/lib/navigation/navigation.types';
-import React from 'react';
-import { ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { FlatList } from 'react-native';
 
 export interface DriverNumberScreenProps
   extends RootNavigationProps<'DriverNumber'> {}
@@ -17,7 +17,23 @@ export interface DriverNumberScreenProps
 const DriverNumberScreen: React.FC<DriverNumberScreenProps> = ({
   navigation,
 }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [drivers, setDrivers] = useState<any[]>([]);
   const { spacing } = useTheme();
+
+  useEffect(() => {
+    setLoading(true);
+    api.transports
+      .getDrivers()
+      .then(res => {
+        setDrivers(res);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <Container
       safeArea
@@ -29,24 +45,26 @@ const DriverNumberScreen: React.FC<DriverNumberScreenProps> = ({
           onPress: navigation.goBack,
         },
       }}>
-      <Box flex={1}>
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ padding: spacing.m }}>
-          <Box>
-            {drivers.map((d, index) => {
+      {loading ? (
+        <LoadingContainer />
+      ) : (
+        <Box flex={1}>
+          <FlatList
+            data={drivers}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ padding: spacing.m }}
+            keyExtractor={(_, index) => _.name + index.toString()}
+            renderItem={({ item }) => {
               return (
-                <Box key={d.name + index}>
-                  <NumberCard name={d.name} phone={d.mobile} />
-                  <Visibility on={index < drivers.length}>
-                    <Spacer />
-                  </Visibility>
+                <Box>
+                  <NumberCard name={item.name} phone={item.mobile} />
                 </Box>
               );
-            })}
-          </Box>
-        </ScrollView>
-      </Box>
+            }}
+            ItemSeparatorComponent={Spacer}
+          />
+        </Box>
+      )}
     </Container>
   );
 };
