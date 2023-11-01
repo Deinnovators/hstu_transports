@@ -1,22 +1,38 @@
+import React, { useEffect, useState } from 'react';
 import {
   Box,
-  Card,
   Container,
+  LoadingContainer,
+  NoCard,
+  OngoingCard,
   Spacer,
   Text,
-  TextRow,
+  UpcomingCard,
   Visibility,
 } from '@app/components';
-import { useTheme } from '@app/lib/hooks';
 import { RootNavigationProps } from '@app/lib/navigation/navigation.types';
-import { fp, hp, screenWidth } from '@app/lib/utils';
-import React from 'react';
 import { ScrollView } from 'react-native';
+import { api } from '@app/api';
 
 export interface OngoingScreenProps extends RootNavigationProps<'Ongoing'> {}
 
 const OngoingScreen: React.FC<OngoingScreenProps> = ({ navigation }) => {
-  const { spacing } = useTheme();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState<any>(undefined);
+
+  useEffect(() => {
+    setLoading(true);
+    api.transports
+      .getOngoingUpcoming()
+      .then(res => {
+        setData(res);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <Container
       safeArea
@@ -28,88 +44,41 @@ const OngoingScreen: React.FC<OngoingScreenProps> = ({ navigation }) => {
           onPress: navigation.goBack,
         },
       }}>
-      <Box flex={1} padding="m">
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text variant="title" mb="s">
-            Ongoing
-          </Text>
-          {Array(2)
-            .fill(0)
-            .map((_, index) => {
-              return (
-                <Card
-                  key={index}
-                  mb="s"
-                  flexDirection="row"
-                  alignItems="center">
-                  <Box
-                    justifyContent="center"
-                    height={32}
-                    width={32}
-                    borderWidth={1}
-                    mr="s"
-                    borderRadius="round"
-                    alignItems="center">
-                    <Text>{index + 1}</Text>
-                  </Box>
-                  <Box>
-                    <Text variant="comment">From: {'         Boro Math'}</Text>
-                    <Text variant="comment">
-                      {/* eslint-disable-next-line quotes */}
-                      Prev Stop:{`  `}Moharaja Mor{' '}
-                      <Text variant="caption" fontSize={fp(1.2)}>
-                        (Left at: 10:30 am)
-                      </Text>
-                    </Text>
-                    <Text variant="comment">
-                      Next Stop:{'  '}
-                      <Text fontWeight="600" variant="comment" color="primary">
-                        Terminal
-                      </Text>
-                    </Text>
-                  </Box>
-                </Card>
-              );
+      {loading ? (
+        <LoadingContainer />
+      ) : (
+        <Box flex={1} padding="m">
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Text variant="title" mb="s">
+              Ongoing
+            </Text>
+            <Visibility on={!data?.ongoing?.length}>
+              <NoCard title="No ongoing trip at this moment" />
+            </Visibility>
+            {data?.ongoing?.map((trip: any) => {
+              return <OngoingCard trip={trip} key={trip.id} />;
             })}
-          <Text variant="title" mt="m" mb="s">
-            Upcoming
-          </Text>
-          <Box flexDirection="row" flexWrap="wrap">
-            {Array(4)
-              .fill(0)
-              .map((_, index) => {
+            <Text variant="title" mt="m" mb="s">
+              Upcoming
+            </Text>
+            <Visibility on={!data?.upcoming?.length}>
+              <NoCard title="No upcoming trip at this moment" />
+            </Visibility>
+            <Box flexDirection="row" flexWrap="wrap">
+              {data?.upcoming.map((up: any, index: number) => {
                 return (
-                  <Box key={index} mb="s" flexDirection="row">
-                    <Card
-                      width={
-                        (screenWidth - spacing.m * 2) / 2 - Math.round(hp(1))
-                      }
-                      alignItems="center">
-                      <Box
-                        justifyContent="center"
-                        height={32}
-                        width={32}
-                        borderWidth={1}
-                        mb="s"
-                        borderRadius="round"
-                        alignItems="center">
-                        <Text>{index + 1}</Text>
-                      </Box>
-                      <Box alignSelf="stretch">
-                        <TextRow title="From" value="Campus" />
-                        <Spacer />
-                        <TextRow title="Time" value="11:30am" />
-                      </Box>
-                    </Card>
+                  <Box key={up.id + up.time} mb="s" flexDirection="row">
+                    <UpcomingCard schedule={up} />
                     <Visibility on={index % 2 === 0}>
                       <Spacer direction="horinzontal" />
                     </Visibility>
                   </Box>
                 );
               })}
-          </Box>
-        </ScrollView>
-      </Box>
+            </Box>
+          </ScrollView>
+        </Box>
+      )}
     </Container>
   );
 };
