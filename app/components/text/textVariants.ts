@@ -29,6 +29,7 @@ const textVariants = {
   },
   title: {
     fontSize: fp(1.7),
+    color: 'text',
     fontFamily: getFontFamily(FontWeight.SemiBold),
   },
   linkbutton: {
@@ -49,10 +50,12 @@ const textVariants = {
   },
   comment: {
     fontSize: fp(1.5),
+    color: 'text',
     fontFamily: getFontFamily(),
   },
   message: {
     fontSize: fp(1.6),
+    color: 'text',
     fontFamily: getFontFamily(),
   },
   caption: {
