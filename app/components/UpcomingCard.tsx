@@ -11,6 +11,7 @@ import {
   getAndSeperatedName,
   getSpaceSeperatedName,
 } from '@app/lib/utils/string.utils';
+import Visibility from '@app/components/Visibility';
 
 export interface UpcomingCardProps {
   schedule: any;
@@ -25,6 +26,10 @@ const UpcomingCard: React.FC<UpcomingCardProps> = ({ schedule }) => {
       <BusNumberBox busNumber={schedule.transport.busNumber} />
       <Spacer space="medium" />
       <Box alignSelf="stretch">
+        <Visibility on={schedule.scheduleDay}>
+          <TextRow title="Day" value={schedule.scheduleDay} />
+        </Visibility>
+        <Spacer />
         <TextRow
           title="From"
           value={getSpaceSeperatedName(schedule.stoppages[0])}

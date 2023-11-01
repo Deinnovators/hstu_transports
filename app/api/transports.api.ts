@@ -33,10 +33,15 @@ export class TransportsApi extends HTTPService {
     return res.data;
   }
 
-  async getAllSchedules(): Promise<any[]> {
+  async getAllSchedules(): Promise<any> {
     const res = await this.get({
       endpoint: this.endpoints.transports.schedules,
     });
-    return res.data;
+    const regular = res.data.filter((sc: any) => sc.tripKind === 'Regular');
+    const special = res.data.filter((sc: any) => sc.tripKind === 'Special');
+    return {
+      regular,
+      special,
+    };
   }
 }
