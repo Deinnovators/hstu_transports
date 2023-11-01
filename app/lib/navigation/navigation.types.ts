@@ -9,6 +9,7 @@ export interface RootNavigationProps<
 }
 
 export type RootNavigationRoutes = {
+  Startup: undefined;
   Login: undefined;
   Home: undefined;
   Ongoing: undefined;

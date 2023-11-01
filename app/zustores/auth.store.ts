@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 import { rootNavigationRef } from '@app/lib/navigation/RootNavigation';
 import { StorageKey } from '@app/lib/types/storage.types';
 import zuStorage from '@app/zustores/zustorage';
@@ -25,7 +25,7 @@ const useAuthStore = create<AuthState>()(
           index: 0,
           routes: [
             {
-              name: 'Authentication',
+              name: 'Login',
             },
           ],
         });
@@ -34,7 +34,7 @@ const useAuthStore = create<AuthState>()(
 
     {
       name: StorageKey.authStore,
-      getStorage: () => zuStorage,
+      storage: createJSONStorage(() => zuStorage),
     },
   ),
 );

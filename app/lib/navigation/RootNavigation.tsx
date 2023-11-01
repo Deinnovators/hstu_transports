@@ -8,6 +8,7 @@ import {
   LiveTrackingScreen,
   LoginScreen,
   OngoingScreen,
+  StartupScreen,
 } from '@app/screens';
 import { nativeStackOptions } from './navigation.options';
 import {
@@ -23,8 +24,9 @@ const { Navigator, Screen } =
 
 const RootNavigation: React.FC = ({}) => {
   return (
-    <NavigationContainer>
-      <Navigator screenOptions={nativeStackOptions}>
+    <NavigationContainer ref={rootNavigationRef}>
+      <Navigator initialRouteName="Startup" screenOptions={nativeStackOptions}>
+        <Screen name="Startup" component={StartupScreen} />
         <Screen name="Login" component={LoginScreen} />
         <Screen name="Home" component={HomeScreen} />
         <Screen name="Ongoing" component={OngoingScreen} />
