@@ -39,7 +39,7 @@ const OngoingCard: React.FC<OngoingCardProps> = ({ trip }) => {
             trip.schedule.stoppages[nextStopIndex - 1],
           )}{' '}
           <Text variant="caption" fontSize={fp(1.2)}>
-            (Left at: {dayjs(trip.prevLeftAt).format('HH:mma')})
+            (Left at: {dayjs(trip.prevLeftAt).format('hh:mma')})
           </Text>
         </Text>
         <Text variant="comment">

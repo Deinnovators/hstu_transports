@@ -42,7 +42,7 @@ const UpcomingCard: React.FC<UpcomingCardProps> = ({ schedule }) => {
           )}
         />
         <Spacer />
-        <TextRow title="Time" value={dayjs(schedule.time).format('HH:mma')} />
+        <TextRow title="Time" value={dayjs(schedule.time).format('hh:mma')} />
         <Spacer />
         <TextRow title="For" value={getAndSeperatedName(schedule.tripName)} />
       </Box>
