@@ -25,13 +25,19 @@ const MenuItemCard: React.FC<MenuItemCardProps> = ({
         justifyContent="space-between"
         alignItems="center">
         <Box flexDirection="row" alignItems="center">
-          <Icon family={IconFamily.Feather} name={icon} size={iconSize} />
+          <Icon
+            family={IconFamily.Feather}
+            name={icon}
+            color="black"
+            size={iconSize}
+          />
           <Text ml="s">{title}</Text>
         </Box>
         <Icon
           family={IconFamily.Feather}
           name="chevron-right"
           size={iconSize}
+          color="black"
         />
       </Card>
     </TouchBox>
