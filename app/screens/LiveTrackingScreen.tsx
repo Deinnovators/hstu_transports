@@ -1,7 +1,11 @@
+import { api } from '@app/api';
 import { Box, MapMarker } from '@app/components';
+import Loader from '@app/components/Loader';
 import { RoundedIconButton } from '@app/components/button';
 import { RootNavigationProps } from '@app/lib/navigation/navigation.types';
-import React from 'react';
+import { socket } from '@app/services';
+import { useTripStore } from '@app/zustores';
+import React, { useEffect, useState } from 'react';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -14,8 +18,27 @@ const LiveTrackingScreen: React.FC<LiveTrackingScreenProps> = ({
   navigation,
 }) => {
   const insets = useSafeAreaInsets();
+  const [loading, setLoading] = useState<boolean>(false);
+  const { trips, initTrips } = useTripStore();
+
+  useEffect(() => {
+    setLoading(true);
+    api.transports
+      .getOngoingTrips()
+      .then(res => {
+        initTrips(res);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+      });
+    socket.init();
+    return socket.destroy;
+  }, [initTrips]);
+
   return (
     <Box flex={1}>
+      {loading ? <Loader /> : null}
       <Box position="absolute" zIndex={9999} top={insets.top + 16} left={20}>
         <RoundedIconButton
           name="arrow-left"
@@ -28,28 +51,25 @@ const LiveTrackingScreen: React.FC<LiveTrackingScreenProps> = ({
       <MapView
         provider={PROVIDER_GOOGLE}
         style={mapStyle as any}
-        //25.631118, 88.644354
         region={{
           latitude: 25.622414,
           longitude: 88.643843,
           latitudeDelta: 0.04,
           longitudeDelta: 0.04,
         }}>
-        <Marker
-          coordinate={{ latitude: 25.633948, longitude: 88.650024 }}
-          title="13">
-          <MapMarker busNumber="13" />
-        </Marker>
-        <Marker
-          coordinate={{ latitude: 25.631005, longitude: 88.644151 }}
-          title="16">
-          <MapMarker busNumber="16" />
-        </Marker>
-        <Marker
-          coordinate={{ latitude: 25.628303, longitude: 88.641828 }}
-          title="19">
-          <MapMarker busNumber="19" />
-        </Marker>
+        {trips.map((trip, index) => {
+          return (
+            <Marker
+              key={index}
+              coordinate={{
+                latitude: trip.currentLat,
+                longitude: trip.currentLng,
+              }}
+              title={trip.schedule.transport.busNumber}>
+              <MapMarker busNumber={trip.schedule.transport.busNumber} />
+            </Marker>
+          );
+        })}
       </MapView>
     </Box>
   );
