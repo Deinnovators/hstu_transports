@@ -1,5 +1,6 @@
 import { socketURL } from '@app/config';
 import { TransportsEvents } from '@app/constants/events';
+import { useTripStore } from '@app/zustores';
 import { io as sIO, Socket } from 'socket.io-client';
 
 class SocketService {
@@ -13,8 +14,18 @@ class SocketService {
       reconnectionDelay: 1000,
       transports: ['websocket'],
     });
-    this.io.on('start_trip', d => {
-      console.log(d);
+
+    this.io.on(TransportsEvents.start, d => {
+      const { startTrip } = useTripStore.getState();
+      startTrip(d);
+    });
+    this.io.on(TransportsEvents.update, d => {
+      const { updateTrip } = useTripStore.getState();
+      updateTrip(d);
+    });
+    this.io.on(TransportsEvents.finish, d => {
+      const { finishTrip } = useTripStore.getState();
+      finishTrip(d);
     });
   }
 

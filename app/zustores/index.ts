@@ -13,3 +13,4 @@ export {
 } from './auth.store';
 
 export { default as useToastStore, useToast } from './toast.store';
+export { default as useTripStore } from './trip.store';

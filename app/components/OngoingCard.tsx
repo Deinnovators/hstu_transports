@@ -15,7 +15,7 @@ export interface OngoingCardProps {
 }
 
 const OngoingCard: React.FC<OngoingCardProps> = ({ trip }) => {
-  const currentStopIndex = trip.schedule.stoppages.findIndex(
+  const nextStopIndex = trip.schedule.stoppages.findIndex(
     (s: any) => s === trip.nextStop,
   );
   return (
@@ -36,7 +36,7 @@ const OngoingCard: React.FC<OngoingCardProps> = ({ trip }) => {
           {/* eslint-disable-next-line quotes */}
           Prev Stop:{`  `}
           {getSpaceSeperatedName(
-            trip.schedule.stoppages[currentStopIndex - 1],
+            trip.schedule.stoppages[nextStopIndex - 1],
           )}{' '}
           <Text variant="caption" fontSize={fp(1.2)}>
             (Left at: {dayjs(trip.prevLeftAt).format('HH:mma')})
@@ -45,7 +45,7 @@ const OngoingCard: React.FC<OngoingCardProps> = ({ trip }) => {
         <Text variant="comment">
           Next Stop:{'  '}
           <Text fontWeight="600" variant="comment" color="primary">
-            Terminal
+            {getSpaceSeperatedName(trip.schedule.stoppages[nextStopIndex])}
           </Text>
         </Text>
       </Box>

@@ -13,12 +13,15 @@ import {
 import { RootNavigationProps } from '@app/lib/navigation/navigation.types';
 import { ScrollView } from 'react-native';
 import { api } from '@app/api';
+import { useTripStore } from '@app/zustores';
+import { socket } from '@app/services';
 
 export interface OngoingScreenProps extends RootNavigationProps<'Ongoing'> {}
 
 const OngoingScreen: React.FC<OngoingScreenProps> = ({ navigation }) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<any>(undefined);
+  const { trips, initTrips } = useTripStore();
 
   useEffect(() => {
     setLoading(true);
@@ -26,12 +29,15 @@ const OngoingScreen: React.FC<OngoingScreenProps> = ({ navigation }) => {
       .getOngoingUpcoming()
       .then(res => {
         setData(res);
+        initTrips(res.ongoing);
         setLoading(false);
       })
       .catch(() => {
         setLoading(false);
       });
-  }, []);
+    socket.init();
+    return socket.destroy;
+  }, [initTrips]);
 
   return (
     <Container
@@ -52,10 +58,10 @@ const OngoingScreen: React.FC<OngoingScreenProps> = ({ navigation }) => {
             <Text variant="title" mb="s">
               Ongoing
             </Text>
-            <Visibility on={!data?.ongoing?.length}>
+            <Visibility on={!trips.length}>
               <NoCard title="No ongoing trip at this moment" />
             </Visibility>
-            {data?.ongoing?.map((trip: any) => {
+            {trips.map((trip: any) => {
               return <OngoingCard trip={trip} key={trip.id} />;
             })}
             <Text variant="title" mt="m" mb="s">
